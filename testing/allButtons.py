@@ -95,7 +95,7 @@ def press_P():
 	device.emit_click(uinput.KEY_P) #12
 
 def press_Q():
-	device.emit_click(uinput.KEY_Q) #6
+	device.emit_click(uinput.KEY_Q) #16
 
 def press_R():
 	device.emit_click(uinput.KEY_R) #20
