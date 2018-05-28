@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python
 
 #from gpiozero import Button
 import signal
@@ -56,6 +56,8 @@ keyList = {
     Btn_LT: e.KEY_Q,            	# Left Trigger
     Btn_RT: e.KEY_W,            	# Right Trigger
 }
+
+os.system("sudo modprobe uinput")
 
 gpio.setwarnings(False)
 gpio.setmode(gpio.BCM)

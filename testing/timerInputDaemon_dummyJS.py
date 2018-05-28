@@ -55,8 +55,8 @@ eventList = [item[1] for item in buttonList]
 pinList = [item[0] for item in buttonList]
 		
 # add the joystick axes to the event list
-#eventList.append(uinput.ABS_X + (0, 255, 0, 0))
-#eventList.append(uinput.ABS_Y + (0, 255, 0, 0))
+eventList.append(uinput.ABS_X + (0, 255, 0, 0))
+eventList.append(uinput.ABS_Y + (0, 255, 0, 0))
 		    
 device = uinput.Device(eventList)
 
@@ -74,14 +74,28 @@ while(1):
     for idx in range(0,len(pinList)):
         if(buttons[idx].is_pressed):
             #device.emit_click(eventList[idx])
-            device.emit(eventList[idx], 1)
+            if(idx == 11):
+                device.emit(uinput.ABS_Y, 255)
+            elif(idx == 14):
+                device.emit(uinput.ABS_Y, 0)
+            elif(idx == 12):
+                device.emit(uinput.ABS_X, 255)
+            elif(idx == 13):
+                device.emit(uinput.ABS_X, 0)
+            else:
+                device.emit(eventList[idx], 1)
         else:
-            device.emit(eventList[idx], 0)
+            if((idx == 11 and not(buttons[14].is_pressed)) or (idx==14 and not(buttons[11].is_pressed))):
+                device.emit(uinput.ABS_Y, 127)
+            elif((idx == 12 and not(buttons[13].is_pressed)) or (idx == 13 and not(buttons[12].is_pressed))):
+                device.emit(uinput.ABS_X, 127)
+            else:
+                device.emit(eventList[idx], 0)
         
         #fill joystick up with dummy info so we have something to read
         #device.emit(uinput.ABS_X, (idx*10), syn=False)
         #device.emit(uinput.ABS_Y, (idx*10))
 
-    time.sleep(0.0165)
+    time.sleep(0.033)
 
 
