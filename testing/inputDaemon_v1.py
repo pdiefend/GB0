@@ -62,7 +62,7 @@ gpio.setmode(gpio.BCM)
 gpio.setup(buttonList, gpio.IN, pull_up_down=gpio.PUD_UP)
 
 try:
-	ui = UInput({e.EV_KEY: KEYS.values()}, name="retrogame", bustype=e.BUS_USB)
+    ui = UInput({e.EV_KEY: keyList.values()}, name="retrogame", bustype=e.BUS_USB)
 except uinput.UInputError as e:
     sys.stdout.write(e.message)
     sys.stdout.write("Have you tried running as root? sudo {}".format(sys.argv[0]))
@@ -74,10 +74,10 @@ def log(msg):
     sys.stdout.write(msg)
     sys.stdout.write("\n")
     sys.stdout.flush()
-	
+
 def handle_button(pin):
-    key = KEYS[pin]
-    time.sleep(BOUNCE_TIME)
+    key = keyList[pin]
+    time.sleep(Debounce)
     if pin >= 1000:
       state = analog_states[pin-1000]
     else:
@@ -90,15 +90,14 @@ def handle_button(pin):
 
 for button in buttonList:
     gpio.add_event_detect(button, gpio.BOTH, callback=handle_button, bouncetime=1)
-	
+
 while True:
 	try:
 		time.sleep(0.01)
-	catch KeyboardInterrupt:
+	except KeyboardInterrupt:
 		print("Stopping")
 		sys.exit(0)
-	
-		
+
 
 '''
 
@@ -127,7 +126,7 @@ buttonList = [
 # Decontruct the lists that are indexed the same for recall
 eventList = [item[1] for item in buttonList]
 pinList = [item[0] for item in buttonList]
-				    
+ 
 device = uinput.Device(eventList)
 
 buttons = []
