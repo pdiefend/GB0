@@ -57,6 +57,8 @@ keyList = {
     Btn_RT: e.KEY_W,            	# Right Trigger
 }
 
+os.system("sudo modprobe uinput")
+
 gpio.setwarnings(False)
 gpio.setmode(gpio.BCM)
 gpio.setup(buttonList, gpio.IN, pull_up_down=gpio.PUD_UP)
